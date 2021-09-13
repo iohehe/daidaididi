@@ -3,9 +3,12 @@
 \usepackage{url}
 \usepackage{mathtools}
 
+\title{IMP}
+\author{iohex}
+\date{September 2021}
+
 \begin{document}
-    \title{IMP}
-    \author{iohex}
+    \maketitle
 \section{IMP}
     \emph{IMP} is a small lanuage of while programs, which called "imperative" lanuage.
     In the \emph{programming paradigms}, \emph{imperative lanuage} means program execution involves carrying out series of explicit commands to change state.
@@ -22,6 +25,7 @@
             \item commands \textbf{Com}
         \end{itemize}
     
+    % arithmetic expressions
     We define the \emph{formation rules} for \textbf{Aexp} by:
 
     \[
@@ -31,12 +35,75 @@
     %
     The symbol "::=" should be read as "can be" (p.s. BNF isn't it?)
 
-    %
+    % boolean expressions
     And for \textbf{Bexp}:
     \[
-        b \Coloneqq \textbf{true} | \textbf{false} | a\_0 = a\_1 | a\_0 \leq a\_1 | \neg b | b_0 \wedge b_1 | b_0 \lor b_1
+        b \Coloneqq \textbf{true} | \textbf{false} | a_0 = a_1 | a_0 \leq a_1 | \neg b | b_0 \wedge b_1 | b_0 \lor b_1
     \]
+
+    % commands
+    we define the syntactic of commands:
+    \[
+        c \Coloneqq \textbf{skip} | X \Coloneq a | c_0;c_1 | \textbf{if}\ b\ \textbf{then}\ c_0\  \textbf{else}\ c_1 | \textbf{while}\ b\ \textbf{do}\ c
+    \]
+
+    From a \emph{set-theory} point of view, this notaion provides an \emph{inductive definition} of the syntactic set of \textbf{IMP}
+
+    %
+    For the moment, this notation should be viewed as simply telling us how to construct elements of the syntactic sets.
+
+    %
+    We need some notation to express when two elements \textit{$e_0$}, \textit{$e_1$}. 
+    %
+    We use $e_0 \equiv e_1$ to mean \textit{$e_0$} is identical to \textit{$e_1$}.
+    %
+    The set of \textit{states} $\Sigma$ consists of functions $\sigma: \textbf{Loc} \rightarrow \textbf{N}$.
+    %
+    Thuse $\sigma(X)$ is the value, or contents, of location \textbf{X} in state $\sigma$.
+
+    %
+    Consider the evaluation of an arithmetic expression a in a state $\sigma$.
+    %
+    We can represent the situation of expression a waiting to be evaluated in state $\sigma$ by the pair $<a, \sigma>$
+    %
+    We shall \textbf{define} an evaluation relation between such pairs and numbers:
+
+        %
+        \[
+            <a, \sigma> \rightarrow n
+        \]
+        %
+
+    %
+    This is meaning: expression a in state $\sigma$ evaluates to \textit{n}.
+    %
+    Call pairs $<a, \sigma>$, where a is an arithmetic expression and $\sigma$ is a state.
+
+    %
+    \textbf{Evaluation of numbers:}
+    %
+        \[
+            <n, \sigma> \rightarrow n
+        \]
+
+    %
+    \textbf{Evaluation of subtractions:}
+    %
+        \[
+            <x, \sigma> \rightarrow \sigma(X)
+        \]
+
+    %
+    \textbf{Evaluation of sums}
+    
+        \[
+            \frac{<a_0, \sigma> \rightarrow n_0 <a_1, \sigma> \rightarrow n_1}{<a_0 * a_1, \sigma> \rightarrow n}
+        \]
 
 
 
 \end{document}
+
+
+
+
