@@ -29,7 +29,7 @@
     We define the \emph{formation rules} for \textbf{Aexp} by:
 
     \[
-        a \Coloneqq n | X | a_0+a_1|a_0-a_1|a_0 \times a_1.
+        a \Coloneqq n\ |\ X\ |\ a_0+a_1\ |\ a_0-a_1\ |\ a_0\ \times\ a_1.
     \]
 
     %
@@ -38,13 +38,13 @@
     % boolean expressions
     And for \textbf{Bexp}:
     \[
-        b \Coloneqq \textbf{true} | \textbf{false} | a_0 = a_1 | a_0 \leq a_1 | \neg b | b_0 \wedge b_1 | b_0 \lor b_1
+        b \Coloneqq \textbf{true}\ |\ \textbf{false}\ |\ a_0\ =\ a_1\ |\ a_0\ \leq\ a_1\ |\ \neg\ b\ |\ b_0\ \wedge\ b_1\ |\ b_0\ \lor\ b_1
     \]
 
     % commands
     we define the syntactic of commands:
     \[
-        c \Coloneqq \textbf{skip} | X \Coloneq a | c_0;c_1 | \textbf{if}\ b\ \textbf{then}\ c_0\  \textbf{else}\ c_1 | \textbf{while}\ b\ \textbf{do}\ c
+        c \Coloneqq \textbf{skip}\ |\ X\ \Coloneq\ a\ |\ c_0;c_1\ |\ \textbf{if}\ b\ \textbf{then}\ c_0\  \textbf{else}\ c_1 | \textbf{while}\ b\ \textbf{do}\ c
     \]
 
     From a \emph{set-theory} point of view, this notaion provides an \emph{inductive definition} of the syntactic set of \textbf{IMP}
@@ -52,6 +52,9 @@
     %
     For the moment, this notation should be viewed as simply telling us how to construct elements of the syntactic sets.
 
+
+
+    \subsection*{The evaluation of arithmetic expression}
     %
     We need some notation to express when two elements \textit{$e_0$}, \textit{$e_1$}. 
     %
@@ -64,33 +67,33 @@
     %
     Consider the evaluation of an arithmetic expression a in a state $\sigma$.
     %
-    We can represent the situation of expression a waiting to be evaluated in state $\sigma$ by the pair $<a, \sigma>$
+    We can represent the situation of expression a waiting to be evaluated in state $\sigma$ by the pair $\langle a, \sigma \rangle $
     %
     We shall \textbf{define} an evaluation relation between such pairs and numbers:
 
         %
         \[
-            <a, \sigma> \rightarrow n
+            \langle a, \sigma \rangle \rightarrow n
         \]
         %
 
     %
     This is meaning: expression a in state $\sigma$ evaluates to \textit{n}.
     %
-    Call pairs $<a, \sigma>$, where a is an arithmetic expression and $\sigma$ is a state.
+    Call pairs $\langle a, \sigma \rangle $, where a is an arithmetic expression and $\sigma$ is a state.
 
     %
     \textbf{Evaluation of numbers:}
     %
         \[
-            <n, \sigma> \rightarrow n
+            \langle n, \sigma \rangle \rightarrow n
         \]
 
     %
     \textbf{Evaluation of subtractions:}
     %
         \[
-            <x, \sigma> \rightarrow \sigma(X)
+            \langle x, \sigma \rangle \rightarrow \sigma(X)
         \]
 
     %
@@ -98,7 +101,7 @@
     
         %
         \[
-            \frac{<a_0, \sigma> \rightarrow n_0 <a_1, \sigma> \rightarrow n_1}{<a_0 * a_1, \sigma> \rightarrow n}
+            \frac{ \langle a_0, \sigma \rangle \rightarrow n_0 \langle a_1, \sigma \rangle \rightarrow n_1}{\langle a_0 * a_1, \sigma \rangle \rightarrow n}
         \]
         %
 
@@ -107,7 +110,7 @@
 
         %
         \[
-            \frac{<a_0, \sigma> \rightarrow n_0 <a_1, \sigma> \rightarrow n_1}{<a_0 * a_1, \sigma> \rightarrow n}
+            \frac{\langle a_0, \sigma \rangle \rightarrow n_0 \langle a_1, \sigma \rangle \rightarrow n_1}{ \langle a_0 * a_1, \sigma \rangle \rightarrow n}
         \]
         %
 
@@ -117,6 +120,26 @@
 You can read it as:
 %
 If $\langle a_0, \sigma \rangle \rightarrow n_0$ and $\langle a_1, \sigma \rangle \rightarrow n_1$ then $\langle a_0 * a_1, \sigma \rangle \rightarrow n$
+
+
+\subsubsection*{\textit{derivation tree}}
+    Consider evaluating an arithmetic expression a in some state $\sigma$. This amounts to finding a derivation in which the left part of the conclusion matches $\langle a, \sigma \rangle$
+
+    %
+    The evaluation relation determines a natural equivalence relation on expressions.
+    %
+    We define:
+
+
+        %
+        \[
+            a_0 \sim a_1\ {iff}\ (\forall n \in N \forall sigma \in \Sigma. \langle a_0, \sigma \rangle \rightarrow n \iff \langle a_1, \sigma \rangle \rightarrow n)
+        \]
+        %
+
+
+    which makes two arithmetic expressions \textbf{equivalent} if they evaluate to the same value in all states.
+
 
 
 \end{document}
