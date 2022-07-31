@@ -1,13 +1,13 @@
-# 带带弟弟系列计算机理论恶补丛书阅读
+# IT Theory 
 
 - 1.形式语义: TheFormalSemanticsofProgrammingLanguages
+- 2.程序分析
 
 
 
 
+Computer technology is an art.
 
 
-
-
-(女神镇楼)![](https://penlab-1252869057.cos.ap-beijing.myqcloud.com/2021-09-11-EjlLtmPUYAEurhl%20copy.jpeg)
+![](https://penlab-1252869057.cos.ap-beijing.myqcloud.com/2021-09-11-EjlLtmPUYAEurhl%20copy.jpeg)
 
