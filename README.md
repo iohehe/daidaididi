@@ -8,6 +8,3 @@
 
 Computer technology is an art.
 
-
-![](https://penlab-1252869057.cos.ap-beijing.myqcloud.com/2021-09-11-EjlLtmPUYAEurhl%20copy.jpeg)
-
