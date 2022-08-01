@@ -1,0 +1,160 @@
+#+title: The pointer analysis in Java
+#+author: iohex
+#+date: 2021-07-30
+#+tag: program language analysis
+
+* Introduction
+
+*Pointer analysis* is also called *point-to analysis*, which is
+a fundamental static program analysis, with a rich literature and wide applications.
+The goal of pointer analysis is to compute the approximation of the set of program
+objects that a pointer variable or expression can refer to.
+
+Such information offers a static model of a program's heap. Since the heap is the primary
+structure for global program data, pointer analysis form the substrate of most inter-
+procedural static analysis.
+
+The following code means there is an object recevier which is call _a_. This is
+a pointer.
+
+#+BEGIN_SRC java
+  A a = new A();
+#+END_SRC
+
+If we eval this statement. It will these things:
+
++ Create an object of class _A_.
++ invoke the constructor of class _A_.
++ declare a variable _a_.
++ put _a_ as a *pointer* of class _A_, and point to the created object. 
+
+
+* Core Pointer Analysis
+
+The standard formulation of a pointer analysis is as a computation of the set of objects(the /points-to/ set).
+
+The program fragment below, in a Java-like language, contain two methods _fun1_
+and _fun2_.
+The methodsd allocate objects and pass them to a third method, _id_, which is the identity function.
+
+#+BEGIN_SRC java
+  void func1() {
+    Object a1 = new A1();
+    Object b1 = id(a1);
+  }
+
+  void func2() {
+     Object a2 = new A2(); 
+     Object b2 = id(a2):
+  }
+
+  Object id(Object a) {return a;}
+#+END_SRC
+
+The first questions is how objects are statically abstracted in the analysis.
+
+During program run time, methods _fun1_ and _fun2_ may be invoked millions of times, causing the /new/
+instructions to allocate an equal number of distinct objects.
+Since pointer analysis is done statically, such precision is typically lost in the approximation performed by
+the analysis.
+
+The conventional approach is to represent objects such as *allocation sites*, like to consider
+a single abstract object to stand for each run-time object allocated by the same instruction(lcoal with the site).
+Therefore, in our example, instructions _new A1()_ and _new A2()_ are each associated with a different abstract object.
+
+Based on thie *heap abstraction*, what would we expect to be the outcome of a pointer analysis of the above program?
+Certainly variable _a1_ and _fun1A_ (henceforth denoted _fun1::a1_) can point to abstract object _new A1()_,
+and similarly for _fun2::a2_ and _new A2()_.
+
+The rest of the variables require inter-procedural reasoning to establish their points-to sets.
+Since method _id_ returns the object passed into it, the result is fairly simple.
+A fully precise points-to answer for the variables and abstract objects shown is:
+
++ fun1::a1 \rightarrow new A1()
++ fun1::b1 \rightarrow new A1()
++ fun2::a2 \rightarrow new A2()
++ fun2::b2 \rightarrow new A2()
++ /id/::a \rightarrow new A1(), new A2()
+
+
+* The basis of the pointer analysis 
+
+There are fours causes to effect the preices of Java Point analysis:
+
+** Heap Abstration
+
+** Flow sensitivity
+
+** Context sensitivity
+
+In the interproducal analysis, every call-site has its own context.
+
+** Analysis scope
+
+
+* The foundation of pointer analysis
+
+|----+-----------------------------------------------|
+| ID | Question                                      |
+|----+-----------------------------------------------|
+|  1 | What is pointer analysis?                     |
+|  2 | What is the key fators of pointer analysis?   |
+|  3 | What we need to analysis in pointer analysis? |
+|----+-----------------------------------------------|
+    
+** What we need to analysis
+
+In java, there are four kinds of pointer:
+
++ Local variable: x
++ Static field: C.f (usually put it as global variable)
+ Instance field:  x.f
++ Array elements:  array[i]
+
+We usually neglect the index of array, because somtimes we cannot make sure the precise index in static, such as the array is used in the loop.
+
+#+BEGIN_SRC java
+  array = new String[10];
+  array[0] = "x";
+  array[1] = "y";
+  s = array[0];
+#+END_SRC
+
+The above code doesn't analyze the index in the static analysis, which is like this:
+
+#+BEGIN_SRC java
+  array = new String[];
+  array.arr = "x";
+  array.arr = "y";
+  s = array.arr;
+#+END_SRC
+
+The modern programming language, there are many kinds of statement.
+However, the real pointer analysis only take care of the _pointer-affecting statemtns_, which are effective the pointer directly.
+
+Then we can make sure the *pointer-affecting* statemts:
+
++ New: x = new T()
++ Assignment: x = y
++ Load: y = x.f
++ Store: x.f = y
++ Call: r = x.k(a, ...)
+  
+** Domains and Notations in pointer analysis.  
+
++ Variables in the target program:  $x, y \in V$
++ Fields in the target program: $f, g \in F$
++ Objects: $o_i.f, o_j.g \in O * F$
+
+Then we can represent a field in detail:
+
++ Instance fields:...
+
+  
+* The Andersen-Style Points-To Analysis, Declaratively
+
+Perhaps the best-known and most straightforward pointer analysis algorithm family is commonly attributed to
+/Andersen/. An *Andersen-style* analysis can be easily expresed as /subset constraints/:
+different program statements induce inferences of the from "points-to set A is a subset of points-to set B",
+or, computationally, "add all elements from points-to set A to points-to set B".
+

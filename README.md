@@ -1,10 +1,4 @@
 # IT Theory 
 
-- 1.形式语义: TheFormalSemanticsofProgrammingLanguages
-- 2.程序分析
-
-
-
-
-Computer technology is an art.
-
+- 1.Formal Semantics: The Formal Semantics of Programming Languages
+- 2.Program Analysis: Foundations and Trends in Programming Languages 

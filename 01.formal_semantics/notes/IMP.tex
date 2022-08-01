@@ -1,0 +1,149 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage{url}
+\usepackage{mathtools}
+
+\title{IMP}
+\author{iohex}
+\date{September 2021}
+
+\begin{document}
+    \maketitle
+\section{IMP}
+    \emph{IMP} is a small lanuage of while programs, which called "imperative" lanuage.
+    In the \emph{programming paradigms}, \emph{imperative lanuage} means program execution involves carrying out series of explicit commands to change state.
+
+    \subsection*{syntactic sets}
+    Firstly, we give the syntactic sets associated with IMP:
+
+        \begin{itemize}
+            \item numbers \textbf{N:} the set of signed decimal numerals.
+            \item truth value \textbf{T}
+            \item location \textbf{Loc:} non-empty strings of letters or such strings follwed by digits.
+            \item arithmetic expressions \textbf{Aexp}
+            \item boolean expressions \textbf{Bexp}
+            \item commands \textbf{Com}
+        \end{itemize}
+    
+    % arithmetic expressions
+    We define the \emph{formation rules} for \textbf{Aexp} by:
+
+    \[
+        a \Coloneqq n\ |\ X\ |\ a_0+a_1\ |\ a_0-a_1\ |\ a_0\ \times\ a_1.
+    \]
+
+    %
+    The symbol "::=" should be read as "can be" (p.s. BNF isn't it?)
+
+    % boolean expressions
+    And for \textbf{Bexp}:
+    \[
+        b \Coloneqq \textbf{true}\ |\ \textbf{false}\ |\ a_0\ =\ a_1\ |\ a_0\ \leq\ a_1\ |\ \neg\ b\ |\ b_0\ \wedge\ b_1\ |\ b_0\ \lor\ b_1
+    \]
+
+    % commands
+    we define the syntactic of commands:
+    \[
+        c \Coloneqq \textbf{skip}\ |\ X\ \Coloneq\ a\ |\ c_0;c_1\ |\ \textbf{if}\ b\ \textbf{then}\ c_0\  \textbf{else}\ c_1 | \textbf{while}\ b\ \textbf{do}\ c
+    \]
+
+    From a \emph{set-theory} point of view, this notaion provides an \emph{inductive definition} of the syntactic set of \textbf{IMP}
+
+    %
+    For the moment, this notation should be viewed as simply telling us how to construct elements of the syntactic sets.
+
+
+
+    \subsection*{The evaluation of arithmetic expression}
+    %
+    We need some notation to express when two elements \textit{$e_0$}, \textit{$e_1$}. 
+    %
+    We use $e_0 \equiv e_1$ to mean \textit{$e_0$} is identical to \textit{$e_1$}.
+    %
+    The set of \textit{states} $\Sigma$ consists of functions $\sigma: \textbf{Loc} \rightarrow \textbf{N}$.
+    %
+    Thuse $\sigma(X)$ is the value, or contents, of location \textbf{X} in state $\sigma$.
+
+    %
+    Consider the evaluation of an arithmetic expression a in a state $\sigma$.
+    %
+    We can represent the situation of expression a waiting to be evaluated in state $\sigma$ by the pair $\langle a, \sigma \rangle $
+    %
+    We shall \textbf{define} an evaluation relation between such pairs and numbers:
+
+        %
+        \[
+            \langle a, \sigma \rangle \rightarrow n
+        \]
+        %
+
+    %
+    This is meaning: expression a in state $\sigma$ evaluates to \textit{n}.
+    %
+    Call pairs $\langle a, \sigma \rangle $, where a is an arithmetic expression and $\sigma$ is a state.
+
+    %
+    \textbf{Evaluation of numbers:}
+    %
+        \[
+            \langle n, \sigma \rangle \rightarrow n
+        \]
+
+    %
+    \textbf{Evaluation of subtractions:}
+    %
+        \[
+            \langle x, \sigma \rangle \rightarrow \sigma(X)
+        \]
+
+    %
+    \textbf{Evaluation of sums:}
+    
+        %
+        \[
+            \frac{ \langle a_0, \sigma \rangle \rightarrow n_0 \langle a_1, \sigma \rangle \rightarrow n_1}{\langle a_0 * a_1, \sigma \rangle \rightarrow n}
+        \]
+        %
+
+    %
+    \textbf{Evaluation of productions:}
+
+        %
+        \[
+            \frac{\langle a_0, \sigma \rangle \rightarrow n_0 \langle a_1, \sigma \rangle \rightarrow n_1}{ \langle a_0 * a_1, \sigma \rangle \rightarrow n}
+        \]
+        %
+
+    \textbf{n} is  the product of $n_0$ and $n_1$.
+
+%
+You can read it as:
+%
+If $\langle a_0, \sigma \rangle \rightarrow n_0$ and $\langle a_1, \sigma \rangle \rightarrow n_1$ then $\langle a_0 * a_1, \sigma \rangle \rightarrow n$
+
+
+\subsubsection*{\textit{derivation tree}}
+    Consider evaluating an arithmetic expression a in some state $\sigma$. This amounts to finding a derivation in which the left part of the conclusion matches $\langle a, \sigma \rangle$
+
+    %
+    The evaluation relation determines a natural equivalence relation on expressions.
+    %
+    We define:
+
+
+        %
+        \[
+            a_0 \sim a_1\ {iff}\ (\forall n \in N \forall sigma \in \Sigma. \langle a_0, \sigma \rangle \rightarrow n \iff \langle a_1, \sigma \rangle \rightarrow n)
+        \]
+        %
+
+
+    which makes two arithmetic expressions \textbf{equivalent} if they evaluate to the same value in all states.
+
+
+
+\end{document}
+
+
+
+
